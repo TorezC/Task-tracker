@@ -3,13 +3,13 @@
         <h1 class="text-white font-bold text-3xl">Task Tracker</h1>
     </header>
     <div class="flex px-10 mt-7">
-        <div class="bg-white w-1/4 m-2 p-2 shadow-lg rounded">
+        <div class="bg-white w-1/4 m-2 p-2 shadow-lg rounded"  (dragover)="onDragOver($event)" (drop)="onDrop($event, 'open')">
             <h2 class="text-lg font-bold mb-2">Open</h2>
-            <div class="bg-gray-50 p-4 rounded">
-                <div class="bg-white p-2 rounded shadow">
-                    <h4 class="font-medium">Task 1</h4>
-                    <p class="text-sm text-gray-600 text-justify">Task desc</p>
-                    <p class="text-sm text-gray-600">Today</p>
+            <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('open')" >
+                <div class="bg-white p-2 rounded shadow" draggable="true" (dragstart)="onDragStart(item)">
+                    <h4 class="font-medium">{{item.title}}</h4>
+                    <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
+                    <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
                     <p class="text-sm text-right text-blue-700">Chinaza</p>
                 </div>
             </div>
@@ -26,6 +26,39 @@
                     <button class="text-sm my-1.5 bg-blue-900 rounded text-white p-2 ">Add task</button>
                 </form> 
                 <button class="text-sm mt-1" (click)="toggleForm()">Cancel</button>
+            </div>
+        </div>
+        <div class="bg-white w-1/4 m-2 p-2 shadow-lg rounded" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'pending')">
+            <h2 class="text-lg font-bold mb-2">Pending</h2>
+            <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('pending')" >
+                <div class="bg-white p-2 rounded shadow" draggable="true" (dragstart)="onDragStart(item)">
+                    <h4 class="font-medium">{{item.title}}</h4>
+                    <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
+                    <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
+                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white w-1/4 m-2 p-2 shadow-lg rounded" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'in progress')">
+            <h2 class="text-lg font-bold mb-2">In Progress</h2>
+            <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('in progress')" >
+                <div class="bg-white p-2 rounded shadow" draggable="true" (dragstart)="onDragStart(item)">
+                    <h4 class="font-medium">{{item.title}}</h4>
+                    <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
+                    <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
+                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white w-1/4 m-2 p-2 shadow-lg rounded" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'completed')">
+            <h2 class="text-lg font-bold mb-2">Completed</h2>
+            <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('completed')" >
+                <div class="bg-white p-2 rounded shadow" draggable="true" (dragstart)="onDragStart(item)">
+                    <h4 class="font-medium">{{item.title}}</h4>
+                    <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
+                    <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
+                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                </div>
             </div>
         </div>
     </div>
