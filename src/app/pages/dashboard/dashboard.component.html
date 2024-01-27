@@ -1,0 +1,32 @@
+<div class="bg-gray-100 h-[100vh]">
+    <header class="bg-blue-900 py-6 px-10">
+        <h1 class="text-white font-bold text-3xl">Task Tracker</h1>
+    </header>
+    <div class="flex px-10 mt-7">
+        <div class="bg-white w-1/4 m-2 p-2 shadow-lg rounded">
+            <h2 class="text-lg font-bold mb-2">Open</h2>
+            <div class="bg-gray-50 p-4 rounded">
+                <div class="bg-white p-2 rounded shadow">
+                    <h4 class="font-medium">Task 1</h4>
+                    <p class="text-sm text-gray-600 text-justify">Task desc</p>
+                    <p class="text-sm text-gray-600">Today</p>
+                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                </div>
+            </div>
+            <div class="bg-gray-50 p-4 rounded">
+                <div class="bg-white p-2 rounded shadow" (click)="toggleForm()" *ngIf="!showForm" >
+                    <button class="text-sm" >Add a task</button>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 rounded"  *ngIf="showForm">
+                <form class="bg-white p-2 rounded shadow" >
+                    <input type="text" class="mb-1.5 border-b-[1px] w-full outline-none border-blue-900" placeholder="Title">
+                    <input type="text" class="mb-1.5 border-b-[1px] w-full outline-none border-blue-900" placeholder="Description">
+                    <input type="date" class="mb-1.5 border-b-[1px] w-full outline-none border-blue-900" placeholder="Title">
+                    <button class="text-sm my-1.5 bg-blue-900 rounded text-white p-2 ">Add task</button>
+                </form> 
+                <button class="text-sm mt-1" (click)="toggleForm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
