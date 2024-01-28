@@ -3,11 +3,12 @@
         <h1 class="text-white font-bold text-3xl">Task Tracker</h1>
     </header>
     <div class=" px-10 mt-7 grid md:grid-cols-4 max-w-[1240px]">
+
         <div class="bg-white m-2 p-2 shadow-lg rounded"  (dragover)="onDragOver($event)" (drop)="onDrop($event, 'open')">
             <h2 class="text-lg text-red-400 font-bold mb-2">Open</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('open')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right">Edit</p>
+                    <p class="text-right" (click)="openModal(item)">Edit</p>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
@@ -15,8 +16,9 @@
                 </div>
             </div>
             <div class="bg-gray-50 p-4 rounded">
-                <div class="bg-white p-2 rounded shadow" (click)="toggleForm()" *ngIf="!showForm" >
-                    <button class="text-sm" >Add a task</button>
+                <div class="bg-white p-2  flex justify-between items-center rounded shadow" (click)="toggleForm()" *ngIf="!showForm" >
+                    <button class="text-sm" >Add a task </button>
+                    <span >&plus;</span>
                 </div>
             </div>
             <div class="bg-gray-50 px-4 rounded"  *ngIf="showForm">
@@ -33,7 +35,7 @@
             <h2 class="text-lg text-yellow-600 font-bold mb-2">Pending</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('pending')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right">Edit</p>
+                    <p class="text-right" (click)="openModal(item)">Edit</p>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
@@ -45,7 +47,7 @@
             <h2 class="text-lg text-blue-600 font-bold mb-2">In Progress</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('in progress')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right">Edit</p>
+                    <p class="text-right" (click)="openModal(item)">Edit</p>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
@@ -57,7 +59,7 @@
             <h2 class="text-lg text-green-600 font-bold mb-2">Completed</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('completed')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right">Edit</p>
+                    <p class="text-right"  (click)="openModal(item)">Edit</p>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
@@ -65,5 +67,25 @@
                 </div>
             </div>
         </div>
+
+        <div [ngClass]="{'hidden': !showEditForm}" class="fixed inset-0 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen">
+              <div class="bg-black opacity-50 absolute inset-0"></div>
+              <div class="z-50 bg-white p-4 rounded-lg shadow-md relative max-w-md w-full">
+                <span class="absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700"
+                (click)="closeModal()">
+                  &times;
+                </span>
+                <div class="p-4">
+                    <form [formGroup]="taskForm"  (ngSubmit)="editTask()" class="bg-white p-2 rounded shadow" >
+                        <input type="text" required formControlName="title" class="mb-1.5 border-b-[1px] w-full outline-none border-blue-900" placeholder="Title">
+                        <input type="text" required formControlName="description" class="mb-1.5 border-b-[1px] w-full outline-none border-blue-900" placeholder="Description">
+                        <input type="date" required formControlName="dueDate" class="mb-1.5 border-b-[1px] w-full outline-none border-blue-900" placeholder="Title">
+                        <button type="submit" class="text-sm my-1.5 bg-blue-900 rounded text-white p-2 ">Edit task</button>
+                    </form> 
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
 </div>
