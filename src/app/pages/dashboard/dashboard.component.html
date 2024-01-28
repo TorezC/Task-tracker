@@ -1,18 +1,21 @@
-<div class="bg-gray-100 h-[100vh]">
+<div class="bg-gray-100 max-h-fit md:h-screen">
     <header class="bg-blue-900 py-6 px-10">
         <h1 class="text-white font-bold text-3xl">Task Tracker</h1>
     </header>
-    <div class=" px-10 mt-7 grid md:grid-cols-4 max-w-[1240px]">
+    <div class=" px-10 mt-7 grid md:grid-cols-3 lg:grid-cols-4 max-w-[1240px]">
 
         <div class="bg-white m-2 p-2 shadow-lg rounded"  (dragover)="onDragOver($event)" (drop)="onDrop($event, 'open')">
             <h2 class="text-lg text-red-400 font-bold mb-2">Open</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('open')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right" (click)="openModal(item)">Edit</p>
+                    <div class="flex justify-between items-center">
+                        <button class="text-blue-600" (click)="openModal(item)">Edit</button>
+                        <button class="text-red-600" (click)="deleteTask(item.id)">Delete</button>
+                    </div>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
-                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                    <!-- <p class="text-sm text-right text-blue-700">Chinaza</p> -->
                 </div>
             </div>
             <div class="bg-gray-50 p-4 rounded">
@@ -35,11 +38,14 @@
             <h2 class="text-lg text-yellow-600 font-bold mb-2">Pending</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('pending')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right" (click)="openModal(item)">Edit</p>
+                    <div class="flex justify-between items-center">
+                        <button class="text-blue-600" (click)="openModal(item)">Edit</button>
+                        <button class="text-red-600" (click)="deleteTask(item.id)">Delete</button>
+                    </div>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
-                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                    <!-- <p class="text-sm text-right text-blue-700">Chinaza</p> -->
                 </div>
             </div>
         </div>
@@ -47,11 +53,14 @@
             <h2 class="text-lg text-blue-600 font-bold mb-2">In Progress</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('in progress')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right" (click)="openModal(item)">Edit</p>
+                    <div class="flex justify-between items-center">
+                        <button class="text-blue-600" (click)="openModal(item)">Edit</button>
+                        <button class="text-red-600" (click)="deleteTask(item.id)">Delete</button>
+                    </div>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
-                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                    <!-- <p class="text-sm text-right text-blue-700">Chinaza</p> -->
                 </div>
             </div>
         </div>
@@ -59,15 +68,18 @@
             <h2 class="text-lg text-green-600 font-bold mb-2">Completed</h2>
             <div class="bg-gray-50 p-4 rounded" *ngFor="let item of filterTasksByStatus('completed')" >
                 <div class="bg-white p-2 rounded shadow" draggable="true"  (dragstart)="onDragStart(item)">
-                    <p class="text-right"  (click)="openModal(item)">Edit</p>
+                    <div class="flex justify-between items-center">
+                        <button class="text-blue-600"  (click)="openModal(item)">Edit</button>
+                        <button class="text-red-600" (click)="deleteTask(item.id)">Delete</button>
+                    </div>
                     <h4 class="font-medium">{{item.title}}</h4>
                     <p class="text-sm text-gray-600 text-justify">{{item.description}}</p>
                     <p class="text-sm text-gray-600">{{item.dueDate | date}}</p>
-                    <p class="text-sm text-right text-blue-700">Chinaza</p>
+                    <!-- <p class="text-sm text-right text-blue-700">Chinaza</p> -->
                 </div>
             </div>
         </div>
-
+        <!-- Edit Task Modal  -->
         <div [ngClass]="{'hidden': !showEditForm}" class="fixed inset-0 overflow-y-auto">
             <div class="flex items-center justify-center min-h-screen">
               <div class="bg-black opacity-50 absolute inset-0"></div>
