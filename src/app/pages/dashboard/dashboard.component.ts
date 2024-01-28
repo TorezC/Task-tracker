@@ -15,16 +15,13 @@ export class DashboardComponent {
   showEditForm = false;
   tasksArray: Tasks[] = [];
   currentItem: any;
-  task: any
-  sortedTasks: any
+  task: any;
 
   constructor(private taskService: TaskService, private fb: FormBuilder){
     
   }
   
-  sortAl(item: any) {
-    this.sortedTasks = item.slice().sort();
-  }
+  
   
   toggleForm(){
     this.showForm = !this.showForm;
@@ -89,7 +86,7 @@ export class DashboardComponent {
     title : new FormControl ('', Validators.required),
     description : new FormControl ('', [Validators.required]),
     dueDate : new FormControl ('', Validators.required),
-    status : new FormControl ('open'),
+    status : new FormControl ('open', Validators.required),
   });
 
 // Adding of tasks
@@ -125,6 +122,14 @@ export class DashboardComponent {
       console.log('updated')
     })
     
+  }
+
+  // delete of task
+  deleteTask(id: number){
+    this.taskService.deleteTask(id).subscribe(()=> {
+      console.log('deleted')
+      this.getAllTasks()
+    })
   }
 
 }

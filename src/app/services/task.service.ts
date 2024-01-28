@@ -38,4 +38,8 @@ export class TaskService {
   getTasksById(id: number){
     return this.httpClient.get(`${this.baseUrl}/${id}`, {headers: this.header()})
   }
+
+  deleteTask(id: number){
+    return this.httpClient.delete(`${this.baseUrl}/${id}`, {headers: this.header()})
+  }
 }
