@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Tasks } from '../types/tasks';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class TaskService {
    return this.httpClient.get(this.baseUrl, {headers: this.header()})
   }
 
-  addTask(data: any): Observable<any>{
+  addTask(data: Tasks): Observable<any>{
     return this.httpClient.post(this.baseUrl, data || {}, {headers: this.header()})
   }
 
@@ -30,13 +31,8 @@ export class TaskService {
     return this.httpClient.put(`${this.baseUrl}/${id}`, data)
   }
 
-  editTask(data: any){
-    return this.httpClient.put(this.baseUrl, data || {}, {headers: this.header()})
-  }
-
-  deleteTask(id: number){
-    return this.httpClient.delete(`${this.baseUrl}/${id}`, {headers: this.header()})
-
+  editTask(id: number, data: Tasks){
+    return this.httpClient.put(`${this.baseUrl}/${id}`, data || {}, {headers: this.header()})
   }
 
 }

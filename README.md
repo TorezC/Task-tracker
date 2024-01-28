@@ -1,10 +1,15 @@
 # TaskTracker
 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
 
 ## Development server
+## How to run the application locally
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Cloning from github
+After cloning, run `npm install` to install the packages or dependencies. then run `ng serve`  
 
 ## Code scaffolding
 
