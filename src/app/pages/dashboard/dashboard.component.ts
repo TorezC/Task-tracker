@@ -12,18 +12,36 @@ import { Tasks } from 'src/app/types/tasks';
 export class DashboardComponent {
 
   showForm = false;
-  tasksArray: Tasks[] = []
-  currentItem: any
-  
-  constructor(private taskService: TaskService, private fb: FormBuilder){
-   
-  }
+  showEditForm = false;
+  tasksArray: Tasks[] = [];
+  currentItem: any;
+  task: any
+  sortedTasks: any
 
+  constructor(private taskService: TaskService, private fb: FormBuilder){
+    
+  }
+  
+  sortAl(item: any) {
+    this.sortedTasks = item.slice().sort();
+  }
+  
   toggleForm(){
     this.showForm = !this.showForm;
   }
+  openModal(item: Tasks): void {
+    this.showEditForm = true;
+    this.getTaskById(item.id)
+    
+  }
 
+  closeModal(): void {
+    this.showEditForm = false;
+    this.taskForm.reset()
+   this.getAllTasks()
+  }
   ngOnInit(){
+    console.log(this.showEditForm)
    this.getAllTasks()
   }
 
@@ -35,10 +53,11 @@ export class DashboardComponent {
     
   }
 
-  // filter tasks by status
+  // filter tasks by status and sorting alphabetically
   filterTasksByStatus(status: string){
     console.log(this.tasksArray)
-    return this.tasksArray.filter(task => task.status == status)
+    const filtered = this.tasksArray.filter(task => task.status == status)
+    return filtered.slice().sort((a, b) => a.title.localeCompare(b.title));
   }
 
   onDragStart(item: any){
@@ -73,6 +92,7 @@ export class DashboardComponent {
     status : new FormControl ('open'),
   });
 
+// Adding of tasks
   addTask(data: any){
     this.taskService.addTask(data).subscribe(res => {
       console.log(res)
@@ -81,17 +101,30 @@ export class DashboardComponent {
     })
   }
 
-  editItem(item: any) {
-    this.taskForm.setValue({
-      title: item.title,
-      description: item.description,
-      dueDate: item.dueDate,
-      status: item.status
-    });
+  // getting task by id
+  getTaskById(id: number){
+    this.taskService.getTasksById(id).subscribe((res) => {
+      this.task = res;
+
+      this.taskForm.patchValue({
+        title: this.task.title,
+        description: this.task.description,
+        dueDate: this.task.dueDate,
+      status: this.task.status
+      });
+    })
+    
   }
 
-  editTask(id: number, data: Tasks){
-    this.taskService.editTask(id, data).subscribe()
+  // editing existing tasks
+  editTask(){
+    const updateData = {...this.task, ...this.taskForm.value}
+    this.taskService.editTask(this.task.id, updateData).subscribe(() => {
+      alert('Updated')
+      this.closeModal()
+      console.log('updated')
+    })
+    
   }
 
 }

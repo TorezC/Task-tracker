@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Tasks } from '../types/tasks';
 
 @Injectable({
@@ -35,4 +35,7 @@ export class TaskService {
     return this.httpClient.put(`${this.baseUrl}/${id}`, data || {}, {headers: this.header()})
   }
 
+  getTasksById(id: number){
+    return this.httpClient.get(`${this.baseUrl}/${id}`, {headers: this.header()})
+  }
 }
